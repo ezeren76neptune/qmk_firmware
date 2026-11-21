@@ -29,6 +29,7 @@
 #     at32-dfu     AT32 USB DFU in ROM
 #     tinyuf2      TinyUF2
 #     rp2040       Raspberry Pi RP2040
+#     lpc11u-isp   NXP LPC11Uxx boot ROM ISP (USB mass storage / UART)
 # Current options for RISC-V:
 #     gd32v-dfu    GD32V USB DFU in ROM
 #
@@ -119,6 +120,10 @@ endif
 ifeq ($(strip $(BOOTLOADER)), wb32-dfu)
     OPT_DEFS += -DBOOTLOADER_WB32_DFU
     BOOTLOADER_TYPE = wb32_dfu
+endif
+ifeq ($(strip $(BOOTLOADER)), lpc11u-isp)
+    OPT_DEFS += -DBOOTLOADER_LPC11U_ISP
+    BOOTLOADER_TYPE = lpc11u_isp
 endif
 ifeq ($(strip $(BOOTLOADER)), at32-dfu)
     OPT_DEFS += -DBOOTLOADER_AT32_DFU

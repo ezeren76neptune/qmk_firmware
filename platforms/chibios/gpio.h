@@ -22,11 +22,23 @@ typedef ioline_t pin_t;
 
 /* Operation of GPIO by pin. */
 
-#define gpio_set_pin_input(pin) palSetLineMode((pin), PAL_MODE_INPUT)
-#define gpio_set_pin_input_high(pin) palSetLineMode((pin), PAL_MODE_INPUT_PULLUP)
-#define gpio_set_pin_input_low(pin) palSetLineMode((pin), PAL_MODE_INPUT_PULLDOWN)
-#define gpio_set_pin_output_push_pull(pin) palSetLineMode((pin), PAL_MODE_OUTPUT_PUSHPULL)
-#define gpio_set_pin_output_open_drain(pin) palSetLineMode((pin), PAL_MODE_OUTPUT_OPENDRAIN)
+/* Vendor pin defs may provide their own versions, e.g. when GPIO is not the
+ * default pin function for every pad (NXP LPC11Uxx). */
+#ifndef gpio_set_pin_input
+#    define gpio_set_pin_input(pin) palSetLineMode((pin), PAL_MODE_INPUT)
+#endif
+#ifndef gpio_set_pin_input_high
+#    define gpio_set_pin_input_high(pin) palSetLineMode((pin), PAL_MODE_INPUT_PULLUP)
+#endif
+#ifndef gpio_set_pin_input_low
+#    define gpio_set_pin_input_low(pin) palSetLineMode((pin), PAL_MODE_INPUT_PULLDOWN)
+#endif
+#ifndef gpio_set_pin_output_push_pull
+#    define gpio_set_pin_output_push_pull(pin) palSetLineMode((pin), PAL_MODE_OUTPUT_PUSHPULL)
+#endif
+#ifndef gpio_set_pin_output_open_drain
+#    define gpio_set_pin_output_open_drain(pin) palSetLineMode((pin), PAL_MODE_OUTPUT_OPENDRAIN)
+#endif
 #define gpio_set_pin_output(pin) gpio_set_pin_output_push_pull(pin)
 
 #define gpio_write_pin_high(pin) palSetLine(pin)

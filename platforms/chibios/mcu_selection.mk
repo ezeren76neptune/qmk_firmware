@@ -878,6 +878,104 @@ ifneq ($(findstring AT32F415, $(MCU)),)
   AT32_BOOTLOADER_ADDRESS ?= 0x1FFFAC00
 endif
 
+# NXP LPC11Uxx (Cortex-M0, USB full-speed device).
+# The HAL lives in ChibiOS-Contrib (os/hal/ports/LPC/LPC11Uxx); every LPC11Uxx part
+# shares the same peripherals, so only the linker script and EEPROM differ.
+#   LPC11U1x: 16/24/32 KiB flash, 4 KiB SRAM, no EEPROM, boot ROM ISP over UART.
+#   LPC11U2x/3x: 32-128 KiB flash, 6-10 KiB SRAM, 4 KiB EEPROM, ISP over UART or USB-MSC.
+ifneq ($(filter LPC11U12% LPC11U13% LPC11U14%, $(MCU)),)
+  # Cortex version
+  MCU = cortex-m0
+
+  # ARM version, CORTEX-M0/M1 are 6, CORTEX-M3/M4/M7 are 7
+  ARMV = 6
+
+  ## chip/board settings
+  MCU_FAMILY = LPC
+  MCU_SERIES = LPC11Uxx
+
+  # Linker script to use (4 KiB SRAM0 + 2 KiB USB SRAM; flash size per part)
+  ifneq ($(findstring LPC11U12, $(MCU_ORIG)),)
+    MCU_LDSCRIPT ?= LPC11U12_201
+  else ifneq ($(findstring LPC11U13, $(MCU_ORIG)),)
+    MCU_LDSCRIPT ?= LPC11U13_201
+  else
+    MCU_LDSCRIPT ?= LPC11U14_201
+  endif
+
+  # Startup code to use
+  MCU_STARTUP ?= lpc11uxx
+
+  # Board
+  BOARD ?= GENERIC_LPC11UXX
+
+  USE_FPU ?= no
+
+  # No on-chip EEPROM on LPC11U1x
+  LPC11U_HAS_EEPROM ?= no
+
+  # 4 KiB of RAM: keep the ChibiOS stacks small
+  USE_PROCESS_STACKSIZE ?= 0x500
+  USE_EXCEPTIONS_STACKSIZE ?= 0x180
+endif
+
+ifneq ($(findstring LPC11U24, $(MCU)),)
+  # Cortex version
+  MCU = cortex-m0
+
+  # ARM version, CORTEX-M0/M1 are 6, CORTEX-M3/M4/M7 are 7
+  ARMV = 6
+
+  ## chip/board settings
+  MCU_FAMILY = LPC
+  MCU_SERIES = LPC11Uxx
+
+  # Linker script to use (32 KiB flash, 6 KiB SRAM0 + 2 KiB USB SRAM)
+  MCU_LDSCRIPT ?= LPC11U24_401
+
+  # Startup code to use
+  MCU_STARTUP ?= lpc11uxx
+
+  # Board
+  BOARD ?= GENERIC_LPC11UXX
+
+  USE_FPU ?= no
+
+  LPC11U_HAS_EEPROM ?= yes
+
+  # 6 KiB of RAM: keep the ChibiOS stacks small
+  USE_PROCESS_STACKSIZE ?= 0x500
+  USE_EXCEPTIONS_STACKSIZE ?= 0x200
+endif
+
+ifneq ($(findstring LPC11U35, $(MCU)),)
+  # Cortex version
+  MCU = cortex-m0
+
+  # ARM version, CORTEX-M0/M1 are 6, CORTEX-M3/M4/M7 are 7
+  ARMV = 6
+
+  ## chip/board settings
+  MCU_FAMILY = LPC
+  MCU_SERIES = LPC11Uxx
+
+  # Linker script to use (64 KiB flash, 8 KiB SRAM0 + 2 KiB USB SRAM)
+  MCU_LDSCRIPT ?= LPC11U35_401
+
+  # Startup code to use
+  MCU_STARTUP ?= lpc11uxx
+
+  # Board
+  BOARD ?= GENERIC_LPC11UXX
+
+  USE_FPU ?= no
+
+  LPC11U_HAS_EEPROM ?= yes
+
+  USE_PROCESS_STACKSIZE ?= 0x600
+  USE_EXCEPTIONS_STACKSIZE ?= 0x300
+endif
+
 ifneq ($(findstring GD32VF103, $(MCU)),)
   # RISC-V
   MCU = risc-v
