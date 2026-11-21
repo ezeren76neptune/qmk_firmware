@@ -566,7 +566,7 @@ function drawTabs() {
   });
   document.getElementById("addLayer").disabled = layers.length >= S.maxLayers;
   document.getElementById("delLayer").disabled = layers.length <= 1;
-  const v = cur + 1, leds = [v & 1 ? "blue" : null, v & 2 ? "green" : null, v & 4 ? "red" : null].filter(Boolean);
+  const v = cur + 1, leds = [v & 1 ? "farthest" : null, v & 2 ? "middle" : null, v & 4 ? "closest" : null].filter(Boolean);
   document.getElementById("layerNote").textContent = "Layer " + cur + (cur === 0 ? " is the base layer. " : ". ") +
     (cur < 7 ? "Keymap LEDs while it is the top layer: " + leds.join(" + ") + "." : "") + "  ▽ = transparent (uses the key from the layer below).";
 }

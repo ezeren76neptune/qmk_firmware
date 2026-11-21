@@ -65,12 +65,25 @@ QMK running on the keypad's original controller board, behind Razer's own USB
 bootloader, using the LPC11Uxx support added to `platforms/chibios` in this
 fork (ChibiOS-Contrib HAL, transient EEPROM because the LPC11U1x has none).
 
-Tested on hardware (2026-11-20): it enumerates as `FEED:0113` "Orbweaver
-(QMK)", the 20 main keys type their default keycodes, the backlight works, and
-updates go over USB (FN + key 05, then `util/razer_orbweaver_usb_flash.py`;
-the keypad restarts into the new QMK by itself). Not yet checked: the thumb
-module and the keymap LEDs (their active-low polarity is inferred from
-Razer's code). Settings changed at runtime are lost at power-off.
+Tested on hardware (2026-11-20/21): it enumerates as `FEED:0113` "Orbweaver
+(QMK)", all 26 keys work (20 main keys and the thumb module), the backlight
+and the keymap LEDs work, and updates go over USB (FN + key 05, then
+`util/razer_orbweaver_usb_flash.py`; the keypad restarts into the new QMK by
+itself). Settings changed at runtime are lost at power-off.
+
+* **Keymap LEDs:** the row of three LEDs on the thumb module shows the highest
+  active layer + 1 in binary: farthest (blue) = 1, middle (red) = 2, closest
+  (green) = 4. So layer 0 lights the farthest LED, layer 1 the middle one,
+  layer 2 both, layer 3 the closest, and so on up to layer 6 (all three).
+* **Thumb D-pad:** in the layout, matrix `[1,4]` is the top key, `[2,4]` the
+  bottom, `[3,4]` the left and `[4,4]` the right one, as seen from above.
+  Razer's own default keymap (and this port's default) sends Up from the right
+  key, Right from the bottom one, and so on: arrows turned a quarter turn,
+  presumably for the angle of the thumb.
+* **Backlight:** 8 levels through QMK's software PWM driver (the LPC11U port
+  has no hardware PWM driver). QMK has no breathing for software PWM, so the
+  stock revision adds its own: `BL_BRTG` steps the brightness up and down
+  through all levels, about one breath every 3 seconds.
 
 Flash layout (24 KiB):
 

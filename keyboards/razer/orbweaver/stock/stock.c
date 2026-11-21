@@ -2,8 +2,45 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <hal.h>
+#include "quantum.h"
 #include "bootloader.h"
 #include "lpc11u_iap.h"
+
+#ifdef BACKLIGHT_ENABLE
+/*
+ * Breathing for the software backlight driver, which has none of its own
+ * (QMK only breathes with hardware PWM, and the LPC11U port has no PWM
+ * driver): BL_BRTG steps the brightness through every level and back.
+ */
+#    ifndef ORBWEAVER_BREATH_STEP_MS
+#        define ORBWEAVER_BREATH_STEP_MS 190 /* 2 * BACKLIGHT_LEVELS steps per breath */
+#    endif
+static bool     breathing;
+static uint8_t  breath_step;
+static uint16_t breath_timer;
+
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == BL_BRTG) {
+        if (record->event.pressed) {
+            breathing = !breathing;
+            if (!breathing) {
+                backlight_set(is_backlight_enabled() ? get_backlight_level() : 0);
+            }
+        }
+        return false;
+    }
+    return process_record_user(keycode, record);
+}
+
+void housekeeping_task_kb(void) {
+    if (breathing && is_backlight_enabled() && timer_elapsed(breath_timer) >= ORBWEAVER_BREATH_STEP_MS) {
+        breath_timer = timer_read();
+        breath_step  = (breath_step + 1) % (2 * BACKLIGHT_LEVELS);
+        backlight_set(breath_step <= BACKLIGHT_LEVELS ? breath_step : 2 * BACKLIGHT_LEVELS - breath_step);
+    }
+    housekeeping_task_user();
+}
+#endif
 
 /*
  * QMK runs at 0x1000 behind Razer's own USB bootloader (1532:110D, the one

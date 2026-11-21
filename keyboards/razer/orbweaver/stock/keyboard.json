@@ -13,7 +13,7 @@
         "driver": "software",
         "pin": "A22",
         "on_state": 0,
-        "levels": 5
+        "levels": 8
     },
     "features": {
         "backlight": true,
@@ -43,10 +43,10 @@
                 {"label": "19", "matrix": [3, 3], "x": 3, "y": 3},
                 {"label": "20", "matrix": [4, 3], "x": 4, "y": 3},
                 {"label": "Thumb upper", "matrix": [0, 4], "x": 5.5, "y": 2.75},
-                {"label": "D-pad up", "matrix": [4, 4], "x": 6.75, "y": 3.25},
-                {"label": "D-pad down", "matrix": [3, 4], "x": 6.75, "y": 5.25},
-                {"label": "D-pad right", "matrix": [2, 4], "x": 7.75, "y": 4.25},
-                {"label": "D-pad left", "matrix": [1, 4], "x": 5.75, "y": 4.25},
+                {"label": "D-pad right", "matrix": [4, 4], "x": 7.75, "y": 4.25},
+                {"label": "D-pad left", "matrix": [3, 4], "x": 5.75, "y": 4.25},
+                {"label": "D-pad down", "matrix": [2, 4], "x": 6.75, "y": 5.25},
+                {"label": "D-pad up", "matrix": [1, 4], "x": 6.75, "y": 3.25},
                 {
                     "label": "Thumb lower",
                     "matrix": [

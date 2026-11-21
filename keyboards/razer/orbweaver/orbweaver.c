@@ -10,8 +10,10 @@
  * module (OpenRazer drives them as profile_led_red/green/blue, LED ids
  * 0x0C/0x0D/0x0E). Stock firmware uses them to show which of the 8 Synapse
  * keymaps is active; here they show the highest active layer as (layer + 1)
- * in binary: blue = bit 0, green = bit 1, red = bit 2.
- *   layer 0 -> blue, layer 1 -> green, layer 2 -> green+blue, ...
+ * in binary, read along the row as it sits on the keypad (checked on a real
+ * unit): farthest (blue) = bit 0, middle (red) = bit 1, closest (green) = bit 2.
+ *   layer 0 -> farthest, layer 1 -> middle, layer 2 -> farthest + middle,
+ *   layer 3 -> closest, ... layer 6 -> all three
  *
  * A revision enables this by defining ORBWEAVER_LED_{RED,GREEN,BLUE}_PIN in
  * its config.h. ORBWEAVER_LED_ON_STATE is 1 for active-high LEDs (default).
@@ -23,7 +25,7 @@
 #        define ORBWEAVER_LED_ON_STATE 1
 #    endif
 
-static const pin_t profile_led_pins[3] = {ORBWEAVER_LED_BLUE_PIN, ORBWEAVER_LED_GREEN_PIN, ORBWEAVER_LED_RED_PIN};
+static const pin_t profile_led_pins[3] = {ORBWEAVER_LED_BLUE_PIN, ORBWEAVER_LED_RED_PIN, ORBWEAVER_LED_GREEN_PIN};
 
 static void profile_leds_write(uint8_t value) {
     for (uint8_t i = 0; i < 3; i++) {
