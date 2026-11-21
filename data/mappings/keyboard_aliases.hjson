@@ -647,6 +647,9 @@
     "projectkb/alice": {
         "target": "projectkb/alice/rev1"
     },
+    "razer/orbweaver": {
+        "target": "razer/orbweaver/rp2040"
+    },
     "rama/koyu": {
         "target": "wilba_tech/rama_works_koyu"
     },

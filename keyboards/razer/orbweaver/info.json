@@ -1,0 +1,15 @@
+{
+    "manufacturer": "Razer",
+    "keyboard_name": "Orbweaver (QMK)",
+    "maintainer": "qmk",
+    "url": "https://mysupport.razer.com/app/answers/detail/a_id/3615",
+    "usb": {
+        "vid": "0xFEED",
+        "pid": "0x0113",
+        "device_version": "1.0.0"
+    },
+    "features": {
+        "bootmagic": true,
+        "extrakey": true
+    }
+}
