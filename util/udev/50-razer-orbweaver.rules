@@ -1,0 +1,8 @@
+# Lets a logged-in user flash a Razer Orbweaver running QMK through its Razer
+# bootloader (keyboards/razer/orbweaver/stock, util/razer_orbweaver_usb_flash.py).
+#
+#   sudo cp util/udev/50-razer-orbweaver.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#
+# Razer Bootloader, 1532:110D
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="110d", TAG+="uaccess", MODE="0660", GROUP="plugdev"
